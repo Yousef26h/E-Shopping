@@ -1,7 +1,18 @@
 package com.hackerrank.eshopping.product.dashboard.model;
 
+import lombok.Builder;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@Builder
 public class Product {
+    @Id
     private Long id;
+
     private String name;
     private String category;
     private Double retailPrice;
