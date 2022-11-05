@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
     private Product findById(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> {
-                    throw new ProductNotFoundException("No product with id: " + productId);
+                    return new ProductNotFoundException("No product with id: " + productId);
                 });
     }
 }
