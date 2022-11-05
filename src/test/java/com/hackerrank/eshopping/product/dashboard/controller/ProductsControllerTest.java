@@ -1003,7 +1003,7 @@ public class ProductsControllerTest {
          *         "retail_price": 303.0,
          *         "discounted_price": 251.49,
          *         "availability": true
-         *     },(product.getRetailPrice() - product.getDiscountedPrice()) / product.getRetailPrice()) * 100
+         *     },
          *     {
          *         "id": 3,
          *         "name": "Nightgown",
