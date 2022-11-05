@@ -23,6 +23,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    // Adds a product to database.
+    // if a product already exists with same id, it throws ProductAlreadyExistException
     @Override
     @Transactional
     public void addProduct(ProductDTO productDTO) {
@@ -36,6 +38,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    // updates a product in database using product's id.
+    // if no record found in DB with same id, it throws ProductNotFoundException
     @Override
     @Transactional
     public void updateProduct(Long productId, UpdateProductDTO updateProductDTO) {
@@ -46,12 +50,14 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    // find a product from database by id, otherwise throws ProductNotFoundException
     @Override
     public ProductDTO findProductById(Long productId) {
         Product product = findById(productId);
         return Mapper.convertProductToProductDTO(product);
     }
 
+    // finds all products from database sorted by id (ascending)
     @Override
     public ProductDTO[] findAllProducts() {
         return productRepository.findAll()
@@ -60,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(Mapper::convertProductToProductDTO).toArray(ProductDTO[]::new);
     }
 
+    // finds all products from database sorted by Availability and Discounted Price
     @Override
     public ProductDTO[] findAllByCategory(String category) {
         return productRepository.findAllByCategoryOrderByAvailabilityDescDiscountedPriceAsc(category)
@@ -67,6 +74,9 @@ public class ProductServiceImpl implements ProductService {
                 .map(Mapper::convertProductToProductDTO).toArray(ProductDTO[]::new);
     }
 
+
+    // finds all products from database sorted by (retail price - discounted price) / retail price) * 100,
+    // then by discounted price of product, then by id of product.
     @Override
     public ProductDTO[] findAllByCategoryAndAvailability(String category, boolean availability) {
         String decodedCategory = decodeUrl(category);
@@ -89,6 +99,7 @@ public class ProductServiceImpl implements ProductService {
             return "";
         }
     }
+
 
     private Product findById(Long productId) {
         return productRepository.findById(productId)
